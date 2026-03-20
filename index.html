@@ -9,30 +9,30 @@
 
   :root {
     /* ── Brand ── */
-    --blue:        #107AD4;
-    --blue-dark:   #005a7e;
-    --blue-light:  #e6f4fa;
-    --blue-mid:    rgba(16,122,212,0.12);
-    --pink:        #EEF61F;
-    --pink-dark:   #c8ce00;
-    --pink-dim:    rgba(238,246,31,0.18);
+    --blue:        #4169E1;
+    --blue-dark:   #3558C8;
+    --blue-light:  #EEF1FB;
+    --blue-mid:    rgba(65,105,225,0.12);
+    --pink:        #E8EDFB;
+    --pink-dark:   #8a9fd4;
+    --pink-dim:    rgba(232,237,251,0.18);
 
     /* ── Neutrals ── */
     --ink:         #1a1a1a;
     --ink-soft:    #3a3a3a;
-    --surface:     #f5f9fc;
-    --white:       #ffffff;
+    --surface:     #F6F4F0;
+    --white:       #F6F4F0;
     --text:        #1a1a1a;
     --text-muted:  #5a6a73;
     --text-light:  #8fa3ae;
-    --border:      rgba(16,122,212,0.15);
-    --border-mid:  rgba(16,122,212,0.25);
+    --border:      rgba(65,105,225,0.15);
+    --border-mid:  rgba(65,105,225,0.25);
 
     /* ── Semantic ── */
     --win:         #1a6638;
     --win-bg:      rgba(26,102,56,0.08);
     --brk:         #7a5800;
-    --brk-bg:      rgba(238,246,31,0.20);
+    --brk-bg:      rgba(232,237,251,0.20);
     --loss:        #b83030;
     --loss-bg:     rgba(184,48,48,0.08);
 
@@ -59,7 +59,7 @@
     --r-lg:  10px;
 
     /* ── Shadow ── */
-    --shadow: 0 1px 4px rgba(16,122,212,0.08), 0 4px 16px rgba(16,122,212,0.07);
+    --shadow: 0 1px 4px rgba(65,105,225,0.08), 0 4px 16px rgba(65,105,225,0.07);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,7 +67,7 @@
 
   body {
     font-family: var(--font-body);
-    background: var(--blue);
+    background: var(--surface);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
@@ -109,7 +109,7 @@
     background: var(--blue-dark);
     padding: 0 var(--sp-10);
     gap: 0;
-    border-bottom: 3px solid var(--pink);
+    border-bottom: 3px solid rgba(255,255,255,0.25);
   }
 
   .tab-btn {
@@ -132,7 +132,7 @@
 
   .tab-btn.active {
     color: var(--white);
-    border-bottom-color: var(--pink);
+    border-bottom-color: var(--white);
   }
 
   /* ── Layout ── */
@@ -182,7 +182,7 @@
     display: flex;
     align-items: center;
     gap: var(--sp-3);
-    background: var(--pink);
+    background: var(--blue);
   }
 
   .card-header .icon { display: none; }
@@ -192,7 +192,7 @@
     font-size: 0.95rem;
     font-weight: 500;
     letter-spacing: 0.3px;
-    color: var(--ink);
+    color: var(--white);
     line-height: 1;
   }
 
@@ -242,8 +242,9 @@
   }
 
   .field-suffix {
-    background: var(--pink);
-    color: var(--ink);
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.4);
   }
 
   .field-row input {
@@ -280,11 +281,11 @@
   }
 
   .kpi {
-    background: var(--blue-light);
+    background: var(--pink);
     border-radius: var(--r);
     padding: var(--sp-4);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--pink);
+    border-left: 4px solid var(--blue);
   }
 
   .kpi-label {
@@ -346,6 +347,7 @@
     font-family: var(--font-title);
     font-weight: 500;
     color: var(--blue);
+    font-weight: 700;
     border-bottom: none;
   }
 
@@ -413,7 +415,7 @@
     font-weight: 700;
   }
   .matrix td.row-head {
-    background: var(--blue-light);
+    background: var(--pink);
     color: var(--blue);
     font-weight: 700;
     text-align: right;
@@ -528,7 +530,7 @@
     gap: var(--sp-3);
     margin-bottom: var(--sp-4);
     padding: var(--sp-3) var(--sp-4);
-    background: var(--blue-light);
+    background: var(--pink);
     border-radius: var(--r);
     border: 1px solid var(--border);
   }
@@ -552,14 +554,14 @@
     flex-shrink: 0;
   }
 
-  .toggle.on { background: var(--pink); }
+  .toggle.on { background: var(--blue); }
 
   .toggle::after {
     content: '';
     position: absolute;
     width: 14px;
     height: 14px;
-    background: white;
+    background: #F6F4F0;
     border-radius: 50%;
     top: 3px;
     left: 3px;
@@ -571,42 +573,53 @@
 
   /* ── Tooltip ── */
   .info-tip {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: var(--pink);
-    color: var(--ink);
-    font-size: 9px;
+    background: var(--blue);
+    color: #F6F4F0;
+    border: none;
+    font-size: 10px;
     font-weight: 700;
-    text-align: center;
-    line-height: 15px;
-    cursor: default;
+    font-family: var(--font-title);
+    cursor: help;
     vertical-align: middle;
     margin-left: var(--sp-1);
     position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Info-tip in card-header: lichtere variant */
+  .card-header .info-tip {
+    background: rgba(255,255,255,0.25);
+    color: #F6F4F0;
+    border: 1px solid rgba(255,255,255,0.5);
   }
 
   .info-tip:hover::after {
     content: attr(data-tip);
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    background: var(--ink);
-    color: rgba(255,255,255,0.88);
+    position: fixed;
+    background: #1a1a1a;
+    color: #F6F4F0;
     padding: var(--sp-2) var(--sp-3);
     border-radius: var(--r);
-    font-size: 0.70rem;
+    font-size: 0.75rem;
     font-family: var(--font-body);
     font-weight: 400;
-    white-space: pre-line;
-    max-width: 200px;
-    z-index: 100;
+    font-style: italic;
+    white-space: normal;
+    width: 220px;
+    z-index: 9999;
     pointer-events: none;
-    line-height: 1.5;
-    box-shadow: var(--shadow);
-    border-top: 3px solid var(--pink);
+    line-height: 1.55;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    border-left: 3px solid var(--blue);
+    transform: translateY(-110%);
+    left: auto;
+    bottom: auto;
   }
 
   /* ── Export button ── */
@@ -615,8 +628,9 @@
     align-items: center;
     gap: var(--sp-2);
     padding: var(--sp-2) var(--sp-5);
-    background: var(--pink);
-    color: var(--ink);
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.4);
     border: none;
     border-radius: var(--r);
     font-family: var(--font-title);
@@ -626,7 +640,7 @@
     transition: background 0.15s;
   }
 
-  .export-btn:hover  { background: var(--pink-dark); }
+  .export-btn:hover  { background: rgba(255,255,255,0.25); }
   .export-btn:active { opacity: 0.85; }
   .export-btn svg    { flex-shrink: 0; }
 
@@ -636,7 +650,7 @@
     border-radius: var(--r-lg);
     padding: var(--sp-5) var(--sp-6);
     margin-top: var(--sp-4);
-    border-left: 5px solid var(--pink);
+    border-left: 5px solid rgba(255,255,255,0.4);
   }
 
   .reverse-output .r-label {
@@ -652,7 +666,7 @@
     font-family: var(--font-title);
     font-size: 2.8rem;
     font-weight: 600;
-    color: var(--pink);
+    color: var(--white);
     line-height: 1;
   }
 
@@ -807,10 +821,12 @@
           <div class="field">
             <label>Gemiddelde orderwaarde (AOV)</label>
             <div class="field-row"><span class="field-prefix">€</span><input type="number" id="e_aov" value="150" min="1" oninput="calcEcom()"></div>
+            <div class="field-hint">De gemiddelde waarde van één order, inclusief BTW.</div>
           </div>
           <div class="field">
             <label>Bruto marge <span class="info-tip" data-tip="Omzet minus inkoopprijs, vóór marketing- en vaste kosten">i</span></label>
             <div class="field-row"><input type="number" id="e_margin" value="35" min="1" max="100" oninput="calcEcom()"><span class="field-suffix">%</span></div>
+            <div class="field-hint">Verkoopprijs minus inkoopprijs, vóór marketingkosten. Fashion: 50–70%, elektronica: 10–25%.</div>
           </div>
           <div class="field">
             <label>Retourpercentage</label>
@@ -825,19 +841,22 @@
           <div class="field">
             <label>Ad spend (netto, naar platform)</label>
             <div class="field-row"><span class="field-prefix">€</span><input type="number" id="e_spend" value="2000" min="0" oninput="calcEcom()"></div>
+            <div class="field-hint">Het bedrag dat direct naar het advertentieplatform gaat (excl. agencykosten).</div>
           </div>
           <div class="field">
             <label>Agencykosten <span class="info-tip" data-tip="Vaste fee of % van spend. Wordt meegenomen in de P&L">i</span></label>
             <div class="field-row"><span class="field-prefix">€</span><input type="number" id="e_agency" value="0" min="0" oninput="calcEcom()"></div>
-            <div class="field-hint">Vast bedrag/maand (0 = geen agency)</div>
+            <div class="field-hint">Vaste maandelijkse fee aan het bureau. Laat op 0 als je zelf beheert.</div>
           </div>
           <div class="field">
             <label>Toolkosten / maand <span class="info-tip" data-tip="Feed tools, tracking, bid management, etc.">i</span></label>
             <div class="field-row"><span class="field-prefix">€</span><input type="number" id="e_tools" value="0" min="0" oninput="calcEcom()"></div>
+            <div class="field-hint">Feed tools, trackingplatforms, bid management software, etc.</div>
           </div>
           <div class="field">
             <label>ROAS</label>
             <div class="field-row"><input type="number" id="e_roas" value="4.0" step="0.1" min="0.1" oninput="calcEcom()"><span class="field-suffix">×</span></div>
+            <div class="field-hint">Return on Ad Spend: omzet gedeeld door spend. Een ROAS van 4 betekent €4 omzet per €1 spend.</div>
           </div>
           <div class="field">
             <label>Overige vaste kosten / maand</label>
@@ -857,6 +876,7 @@
             <div class="field">
               <label>Herhalingsaankopen per jaar</label>
               <div class="field-row"><input type="number" id="e_repeat" value="2.5" step="0.1" min="1" oninput="calcEcom()"></div>
+              <div class="field-hint">Hoe vaak koopt een klant gemiddeld per jaar? Inclusief de eerste aankoop.</div>
             </div>
             <div class="field">
               <label>Retentiepercentage jaar 2</label>
@@ -988,10 +1008,12 @@
           <div class="field">
             <label>Klantwaarde (CLV) <span class="info-tip" data-tip="Gemiddelde omzet van één klant over zijn levensduur">i</span></label>
             <div class="field-row"><span class="field-prefix">€</span><input type="number" id="l_clv" value="1000" min="1" oninput="calcLead()"></div>
+            <div class="field-hint">Totale omzet die één klant genereert over de gehele looptijd van de samenwerking.</div>
           </div>
           <div class="field">
             <label>Winstmarge op klant</label>
             <div class="field-row"><input type="number" id="l_margin" value="30" min="1" max="100" oninput="calcLead()"><span class="field-suffix">%</span></div>
+            <div class="field-hint">Het winstpercentage op de omzet die een klant genereert, na alle directe kosten.</div>
           </div>
           <div class="field">
             <label>Lead → klant conversieratio</label>
@@ -1007,6 +1029,7 @@
           <div class="field">
             <label>Ad spend (netto)</label>
             <div class="field-row"><span class="field-prefix">€</span><input type="number" id="l_spend" value="2000" min="0" oninput="calcLead()"></div>
+            <div class="field-hint">Het bedrag dat direct naar het advertentieplatform gaat.</div>
           </div>
           <div class="field">
             <label>Agencykosten</label>
@@ -1019,6 +1042,7 @@
           <div class="field">
             <label>Aantal leads / maand</label>
             <div class="field-row"><input type="number" id="l_leads" value="80" min="1" oninput="calcLead()"></div>
+            <div class="field-hint">Het totaal aantal binnengekomen leads in de maand, ongeacht kwaliteit.</div>
           </div>
           <div class="field">
             <label>Overige vaste kosten / maand</label>
@@ -1106,41 +1130,16 @@
 ══════════════════════════════════════════════ -->
 <div id="tab-channels" class="tab-panel">
 
-  <div class="grid-3">
-
-    <div class="card">
-      <div class="card-header"><div class="icon"></div><div class="card-title">Google (Search/Shopping/PMAX)</div></div>
-      <div class="card-body">
-        <div class="field"><label>Ad spend / maand</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_google_spend" value="2000" min="0" oninput="calcChannels()"></div></div>
-        <div class="field"><label>ROAS</label><div class="field-row"><input type="number" id="ch_google_roas" value="4.0" step="0.1" min="0" oninput="calcChannels()"><span class="field-suffix">×</span></div></div>
-        <div class="field"><label>Bruto marge</label><div class="field-row"><input type="number" id="ch_google_margin" value="35" min="0" max="100" oninput="calcChannels()"><span class="field-suffix">%</span></div></div>
-        <div class="field"><label>Agencykosten</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_google_agency" value="0" min="0" oninput="calcChannels()"></div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div class="icon"></div><div class="card-title">Meta (Facebook / Instagram)</div></div>
-      <div class="card-body">
-        <div class="field"><label>Ad spend / maand</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_meta_spend" value="1500" min="0" oninput="calcChannels()"></div></div>
-        <div class="field"><label>ROAS</label><div class="field-row"><input type="number" id="ch_meta_roas" value="3.2" step="0.1" min="0" oninput="calcChannels()"><span class="field-suffix">×</span></div></div>
-        <div class="field"><label>Bruto marge</label><div class="field-row"><input type="number" id="ch_meta_margin" value="35" min="0" max="100" oninput="calcChannels()"><span class="field-suffix">%</span></div></div>
-        <div class="field"><label>Agencykosten</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_meta_agency" value="0" min="0" oninput="calcChannels()"></div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div class="icon"></div><div class="card-title">Email (eigen kanaal)</div></div>
-      <div class="card-body">
-        <div class="field"><label>Toolkosten / maand</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_email_spend" value="200" min="0" oninput="calcChannels()"></div></div>
-        <div class="field"><label>Omzet via email</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_email_rev" value="3000" min="0" oninput="calcChannels()"></div></div>
-        <div class="field"><label>Bruto marge</label><div class="field-row"><input type="number" id="ch_email_margin" value="35" min="0" max="100" oninput="calcChannels()"><span class="field-suffix">%</span></div></div>
-        <div class="field"><label>Agencykosten</label><div class="field-row"><span class="field-prefix">€</span><input type="number" id="ch_email_agency" value="0" min="0" oninput="calcChannels()"></div></div>
-      </div>
-    </div>
-
+  <div style="display:flex; justify-content:flex-end; margin-bottom:var(--sp-4);">
+    <button class="export-btn" onclick="addChannel()" style="gap:var(--sp-2);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Kanaal toevoegen
+    </button>
   </div>
 
-  <div class="card" style="margin-bottom:24px;">
+  <div id="ch_cards" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:var(--sp-6); margin-bottom:var(--sp-6);"></div>
+
+  <div class="card" style="margin-bottom:var(--sp-6);">
     <div class="card-header"><div class="icon"></div><div class="card-title">Kanaalvergelijking — overzicht</div></div>
     <div class="card-body">
       <div id="ch_table"></div>
@@ -1238,6 +1237,7 @@
         <div class="field">
           <label>Jaarlijks totaal ad spend</label>
           <div class="field-row"><span class="field-prefix">€</span><input type="number" id="s_annual_spend" value="24000" min="0" oninput="calcSeason()"></div>
+            <div class="field-hint">Het totale advertentiebudget voor het hele jaar. Dit wordt verdeeld op basis van de maandgewichten.</div>
         </div>
         <div class="field">
           <label>Bruto marge</label>
@@ -1246,6 +1246,7 @@
         <div class="field">
           <label>ROAS (jaargemiddelde)</label>
           <div class="field-row"><input type="number" id="s_roas" value="4.0" step="0.1" min="0.1" oninput="calcSeason()"><span class="field-suffix">×</span></div>
+            <div class="field-hint">De verwachte gemiddelde ROAS over het jaar. Pas de maandgewichten aan voor seizoenspieken.</div>
         </div>
         <div class="field">
           <label>Retourpercentage</label>
@@ -1331,6 +1332,8 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   el('tab-' + tab).classList.add('active');
   event.target.classList.add('active');
+  if (tab === 'channels') { renderChannelCards(); calcChannels(); }
+  if (tab === 'season') calcSeason();
 }
 
 function toggleCLV() {
@@ -1390,13 +1393,15 @@ function calcEcom() {
 
   const orders = revenue / aov;
   const cpa = spend / orders;
-  const maxCpa = (aov * netRet * margin) - (fixed + agency + tools) / orders;
+  const overheadPerOrder = orders > 0 ? (fixed + agency + tools) / orders : 0;
+  const maxCpa = (aov * netRet * margin) - overheadPerOrder;
 
   // CLV
   let clvCpa = null;
   if (clvOn) {
     const repeat = v('e_repeat'), retention = v('e_retention')/100;
-    const clv = aov * (repeat + repeat * retention);
+    // Jaar 1 + jaar 2 herhalingsaankopen
+    const clv = aov * repeat * (1 + retention);
     clvCpa = clv * margin;
     el('e_clv_cpa').textContent = fmt(clvCpa);
   }
@@ -1546,7 +1551,6 @@ function calcLead() {
     {label:'Klanten / maand', val: customers.toFixed(1) + ' klanten', cls:''},
     {label:'Omzet (CLV-basis)', val: revenue},
     {head:true, label:'Kosten'},
-    {label:'Marge op klant ('+fmtP(margin*100)+')', val: revenue * margin, cls:'pl-positive'},
     {label:'Ad spend', val: -spend, cls:'pl-negative'},
     {label:'Agencykosten', val: -agency, cls:'pl-negative'},
     {label:'Toolkosten', val: -tools, cls:'pl-negative'},
@@ -1614,75 +1618,160 @@ function buildLeadChart(clv, margin, conv, leads, spend, overhead) {
 }
 
 
-// ── CHANNEL CALC ──
+// ── CHANNEL CALC — dynamisch ──
+const CH_COLORS = ['#4169E1','#E8634A','#2DAD72','#F0A500','#9B59B6','#1AB8CF','#E91E8C','#607D8B'];
+let channels = [];
+let chIdCounter = 0;
+
+function addChannel(name='', spend=2000, roas=4.0, margin=35, agency=0) {
+  const id = ++chIdCounter;
+  const color = CH_COLORS[(id - 1) % CH_COLORS.length];
+  channels.push({ id, name: name || 'Kanaal ' + id, color, spend, roas, margin, agency });
+  renderChannelCards();
+  calcChannels();
+}
+
+function removeChannel(id) {
+  channels = channels.filter(ch => ch.id !== id);
+  renderChannelCards();
+  calcChannels();
+}
+
+function updateChannel(id, field, value) {
+  const ch = channels.find(c => c.id === id);
+  if (!ch) return;
+  if (field === 'name') ch.name = value;
+  else if (field === 'spend') ch.spend = parseFloat(value) || 0;
+  else if (field === 'roas') ch.roas = parseFloat(value) || 0;
+  else if (field === 'margin') ch.margin = parseFloat(value) || 0;
+  else if (field === 'agency') ch.agency = parseFloat(value) || 0;
+  calcChannels();
+}
+
+function renderChannelCards() {
+  const container = el('ch_cards');
+  if (!container) return;
+  // Zet visibility tijdelijk beschikbaar voor render, ook als tab verborgen is
+  container.innerHTML = channels.map(ch => `
+    <div class="card">
+      <div class="card-header" style="background:${ch.color}; display:flex; justify-content:space-between; align-items:center;">
+        <input
+          type="text"
+          value="${ch.name}"
+          oninput="updateChannel(${ch.id},'name',this.value)"
+          style="background:transparent;border:none;outline:none;font-family:var(--font-title);font-size:0.95rem;font-weight:500;color:#F6F4F0;width:100%;cursor:text;"
+          placeholder="Kanaalnaam"
+        >
+        ${channels.length > 1 ? `<button onclick="removeChannel(${ch.id})" style="background:rgba(0,0,0,0.2);border:none;color:#F6F4F0;border-radius:4px;width:22px;height:22px;cursor:pointer;font-size:14px;line-height:1;flex-shrink:0;margin-left:8px;">×</button>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Ad spend / maand</label>
+          <div class="field-row"><span class="field-prefix">€</span><input type="number" value="${ch.spend}" min="0" step="100" oninput="updateChannel(${ch.id},'spend',this.value)"></div>
+          <div class="field-hint">Bedrag dat direct naar het platform gaat.</div>
+        </div>
+        <div class="field">
+          <label>ROAS</label>
+          <div class="field-row"><input type="number" value="${ch.roas}" step="0.1" min="0" oninput="updateChannel(${ch.id},'roas',this.value)"><span class="field-suffix">×</span></div>
+          <div class="field-hint">Omzet gedeeld door spend.</div>
+        </div>
+        <div class="field">
+          <label>Bruto marge</label>
+          <div class="field-row"><input type="number" value="${ch.margin}" min="0" max="100" oninput="updateChannel(${ch.id},'margin',this.value)"><span class="field-suffix">%</span></div>
+          <div class="field-hint">Marge die geldt voor dit kanaal.</div>
+        </div>
+        <div class="field">
+          <label>Agencykosten / maand</label>
+          <div class="field-row"><span class="field-prefix">€</span><input type="number" value="${ch.agency}" min="0" oninput="updateChannel(${ch.id},'agency',this.value)"></div>
+          <div class="field-hint">Vaste bureaukosten voor dit kanaal.</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
 function calcChannels() {
-  const channels = [
-    { name: 'Google', color: '#4285F4', spend: v('ch_google_spend'), roas: v('ch_google_roas'), margin: v('ch_google_margin')/100, agency: v('ch_google_agency') },
-    { name: 'Meta', color: '#1877F2', spend: v('ch_meta_spend'), roas: v('ch_meta_roas'), margin: v('ch_meta_margin')/100, agency: v('ch_meta_agency') },
-    { name: 'Email', color: '#D97830', spend: v('ch_email_spend'), roas: v('ch_email_rev') / (v('ch_email_spend') || 1), margin: v('ch_email_margin')/100, agency: v('ch_email_agency'), isEmail: true },
-  ];
+  if (channels.length === 0) {
+    el('ch_table').innerHTML = '<p style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Voeg een kanaal toe om de vergelijking te starten.</p>';
+    el('ch_blended').innerHTML = '';
+    return;
+  }
 
-  // For email: revenue = direct input
-  channels[2].revenue = v('ch_email_rev');
-
-  channels.forEach(ch => {
-    if (!ch.isEmail) ch.revenue = ch.spend * ch.roas;
-    ch.totalCost = ch.spend + ch.agency;
-    ch.grossProfit = ch.revenue * ch.margin;
-    ch.netProfit = ch.grossProfit - ch.totalCost;
-    ch.netMarginPct = ch.totalCost > 0 ? (ch.netProfit / ch.revenue * 100) : 0;
-    ch.effectiveRoas = ch.revenue / (ch.totalCost || 1);
+  const computed = channels.map(ch => {
+    const revenue = ch.spend * ch.roas;
+    const totalCost = ch.spend + ch.agency;
+    const netProfit = revenue * (ch.margin / 100) - totalCost;
+    const effectiveRoas = revenue / (totalCost || 1);
+    return { ...ch, revenue, totalCost, netProfit, effectiveRoas };
   });
 
-  const totalSpend = channels.reduce((s, c) => s + c.spend, 0);
-  const totalRevenue = channels.reduce((s, c) => s + c.revenue, 0);
-  const totalProfit = channels.reduce((s, c) => s + c.netProfit, 0);
-  const blendedRoas = totalRevenue / (totalSpend || 1);
+  const totalSpend   = computed.reduce((s, c) => s + c.spend, 0);
+  const totalRevenue = computed.reduce((s, c) => s + c.revenue, 0);
+  const totalProfit  = computed.reduce((s, c) => s + c.netProfit, 0);
+  const blendedRoas  = totalRevenue / (totalSpend || 1);
 
-  // Table
-  let html = `<div class="channel-row header">
-    <div>Kanaal</div><div>Spend</div><div>Omzet</div><div>ROAS</div><div>Netto winst</div>
-  </div>`;
-  channels.forEach(ch => {
-    const pCls = ch.netProfit > 0 ? 'pl-positive' : 'pl-negative';
-    html += `<div class="channel-row">
-      <div class="channel-name-cell"><div class="ch-dot" style="background:${ch.color}"></div>${ch.name}</div>
-      <div>${fmt(ch.spend)}</div>
-      <div>${fmt(ch.revenue)}</div>
-      <div>${fmtN(ch.effectiveRoas)}</div>
-      <div class="${pCls}" style="font-family:var(--font-mono);font-size:0.82rem;">${fmt(ch.netProfit)}</div>
-    </div>`;
+  // Overzichtstabel
+  let html = `<div style="overflow-x:auto;">
+    <table class="pl-table" style="font-size:0.83rem;">
+      <tr style="border-bottom:2px solid var(--border-mid);">
+        <th style="text-align:left;padding:var(--sp-2) 0;font-family:var(--font-title);font-weight:500;color:var(--blue);font-size:0.78rem;">Kanaal</th>
+        <th style="text-align:right;padding:var(--sp-2) var(--sp-3);font-family:var(--font-title);font-weight:500;color:var(--blue);font-size:0.78rem;">Spend</th>
+        <th style="text-align:right;padding:var(--sp-2) var(--sp-3);font-family:var(--font-title);font-weight:500;color:var(--blue);font-size:0.78rem;">Omzet</th>
+        <th style="text-align:right;padding:var(--sp-2) var(--sp-3);font-family:var(--font-title);font-weight:500;color:var(--blue);font-size:0.78rem;">Eff. ROAS</th>
+        <th style="text-align:right;padding:var(--sp-2) var(--sp-3);font-family:var(--font-title);font-weight:500;color:var(--blue);font-size:0.78rem;">Netto winst</th>
+        <th style="text-align:right;padding:var(--sp-2) var(--sp-3);font-family:var(--font-title);font-weight:500;color:var(--blue);font-size:0.78rem;">Aandeel spend</th>
+      </tr>`;
+
+  computed.forEach(ch => {
+    const pct = totalSpend > 0 ? (ch.spend / totalSpend * 100) : 0;
+    const cls = ch.netProfit >= 0 ? 'pl-positive' : 'pl-negative';
+    html += `<tr>
+      <td><span style="display:inline-flex;align-items:center;gap:6px;">
+        <span style="width:10px;height:10px;border-radius:2px;background:${ch.color};display:inline-block;flex-shrink:0;"></span>
+        ${ch.name}
+      </span></td>
+      <td style="text-align:right;font-family:var(--font-mono);">${fmt(ch.spend)}</td>
+      <td style="text-align:right;font-family:var(--font-mono);">${fmt(ch.revenue)}</td>
+      <td style="text-align:right;font-family:var(--font-mono);">${fmtN(ch.effectiveRoas)}</td>
+      <td style="text-align:right;font-family:var(--font-mono);" class="${cls}">${fmt(ch.netProfit)}</td>
+      <td style="text-align:right;font-family:var(--font-mono);">${pct.toFixed(1)}%</td>
+    </tr>`;
   });
-  html += `<div class="channel-row" style="font-weight:700;border-top:2px solid var(--border);">
-    <div>Totaal</div>
-    <div>${fmt(totalSpend)}</div>
-    <div>${fmt(totalRevenue)}</div>
-    <div>${fmtN(blendedRoas)}</div>
-    <div class="${totalProfit>0?'pl-positive':'pl-negative'}" style="font-family:var(--font-mono);font-size:0.82rem;">${fmt(totalProfit)}</div>
-  </div>`;
+
+  html += `<tr class="pl-total">
+    <td>Totaal</td>
+    <td style="text-align:right;font-family:var(--font-mono);">${fmt(totalSpend)}</td>
+    <td style="text-align:right;font-family:var(--font-mono);">${fmt(totalRevenue)}</td>
+    <td style="text-align:right;font-family:var(--font-mono);">${fmtN(blendedRoas)}</td>
+    <td style="text-align:right;font-family:var(--font-mono);" class="${totalProfit>=0?'pl-positive':'pl-negative'}">${fmt(totalProfit)}</td>
+    <td style="text-align:right;font-family:var(--font-mono);">100%</td>
+  </tr></table></div>`;
   el('ch_table').innerHTML = html;
 
-  // Blended bar
-  const blendedEl = el('ch_blended');
-  const totalProfitPos = channels.filter(c => c.netProfit > 0).reduce((s,c) => s+c.netProfit, 0);
-  let barHtml = `<div class="kpi-grid" style="margin-bottom:var(--sp-4);">
-    <div class="kpi"><div class="kpi-label">Blended ROAS</div><div class="kpi-value ${blendedRoas>2?'positive':'negative'}">${fmtN(blendedRoas)}</div></div>
-    <div class="kpi"><div class="kpi-label">Totale netto winst</div><div class="kpi-value ${totalProfit>0?'positive':'negative'}">${fmt(totalProfit)}</div></div>
+  // Blended KPI's + spend bar
+  let barHtml = `<div class="kpi-grid" style="margin-bottom:var(--sp-5);">
+    <div class="kpi"><div class="kpi-label">Blended ROAS</div><div class="kpi-value ${blendedRoas>=2?'positive':'negative'}">${fmtN(blendedRoas)}</div><div class="kpi-sub">Gewogen gemiddelde over alle kanalen</div></div>
+    <div class="kpi"><div class="kpi-label">Totale netto winst</div><div class="kpi-value ${totalProfit>=0?'positive':'negative'}">${fmt(totalProfit)}</div></div>
     <div class="kpi"><div class="kpi-label">Totale spend</div><div class="kpi-value">${fmt(totalSpend)}</div></div>
+    <div class="kpi"><div class="kpi-label">Aantal kanalen</div><div class="kpi-value">${channels.length}</div></div>
   </div>`;
-  barHtml += '<div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:var(--sp-2);font-weight:700;">Spend­verdeling</div>';
-  barHtml += '<div class="blended-bar">';
-  channels.forEach(ch => {
+
+  barHtml += `<div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:var(--sp-2);font-weight:600;font-family:var(--font-title);">Budgetverdeling</div>
+  <div class="blended-bar" style="height:12px;">`;
+  computed.forEach(ch => {
     const pct = totalSpend > 0 ? (ch.spend / totalSpend * 100) : 0;
     barHtml += `<div class="blended-seg" style="width:${pct}%;background:${ch.color};" title="${ch.name}: ${pct.toFixed(0)}%"></div>`;
   });
-  barHtml += '</div><div style="display:flex;gap:16px;margin-top:6px;">';
-  channels.forEach(ch => {
+  barHtml += `</div><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:var(--sp-3);">`;
+  computed.forEach(ch => {
     const pct = totalSpend > 0 ? (ch.spend / totalSpend * 100) : 0;
-    barHtml += `<div style="display:flex;align-items:center;gap:6px;font-size:0.73rem;font-family:var(--font-body);"><div style="width:10px;height:10px;border-radius:2px;background:${ch.color}"></div>${ch.name} ${pct.toFixed(0)}%</div>`;
+    barHtml += `<div style="display:flex;align-items:center;gap:6px;font-size:0.78rem;font-family:var(--font-body);">
+      <div style="width:10px;height:10px;border-radius:2px;background:${ch.color};flex-shrink:0;"></div>
+      ${ch.name} — ${pct.toFixed(0)}%
+    </div>`;
   });
   barHtml += '</div>';
-  blendedEl.innerHTML = barHtml;
+  el('ch_blended').innerHTML = barHtml;
 }
 
 
@@ -1886,7 +1975,9 @@ function exportSummary() {
 // ── Init ──
 calcEcom();
 calcLead();
-calcChannels();
+addChannel('Google', 2000, 4.0, 35, 0);
+addChannel('Meta', 1500, 3.2, 35, 0);
+addChannel('Email', 200, 15, 35, 0);
 calcReverse();
 initSeasonInputs();
 calcSeason();
