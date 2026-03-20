@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ads Winstgevendheid Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0F0F0E;
+  --surface: #191918;
+  --surface2: #222220;
+  --border: #2E2E2B;
+  --border2: #3A3A36;
+  --text: #F0EDE6;
+  --muted: #7A7870;
+  --dim: #3A3A36;
+  --accent: #D4863A;
+  --accent2: #E8A85A;
+  --win: #4A8A3A;
+  --win-bg: #1A2E16;
+  --win-text: #7EC86A;
+  --be: #8A6A20;
+  --be-bg: #2A2010;
+  --be-text: #D4A84A;
+  --loss: #8A2A2A;
+  --loss-bg: #2A1010;
+  --loss-text: #E07070;
+  --mono: 'Google Sans Mono', 'Courier New', monospace;
+  --sans: 'Google Sans', sans-serif;
+}
+
+:root.light {
+  --bg: #F8F6F1;
+  --surface: #FFFFFF;
+  --surface2: #F0EDE6;
+  --border: #E0DDD6;
+  --border2: #CCC9C0;
+  --text: #1A1917;
+  --muted: #7A776F;
+  --dim: #CCC9C0;
+  --accent: #C4731A;
+  --accent2: #B86010;
+  --win: #2E6B20;
+  --win-bg: #E8F5E2;
+  --win-text: #2A5A0A;
+  --be: #7A5A10;
+  --be-bg: #FDF3DC;
+  --be-text: #6A4A00;
+  --loss: #8A2020;
+  --loss-bg: #FDEAEA;
+  --loss-text: #7A1010;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+
+.logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.mode-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.mode-btn {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.mode-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── MAIN GRID ── */
+.main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  border-right: 1px solid var(--border);
+  padding: 28px 24px;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  margin-bottom: 28px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ctrl { margin-bottom: 16px; }
+
+.ctrl label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.ctrl label span {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 2px;
+  background: var(--border2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  transition: transform 0.15s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* ── KPI CARDS ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.kpi.full { grid-column: 1/-1; }
+
+.kpi-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.kpi-val {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.kpi-val.accent { color: var(--accent2); }
+.kpi-val.win    { color: var(--win-text); }
+.kpi-val.loss   { color: var(--loss-text); }
+
+/* ── P&L SECTION ── */
+.pnl {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.pnl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.pnl-row:last-child { border-bottom: none; }
+
+.pnl-row.total {
+  background: var(--surface2);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.pnl-row.total .pnl-val { font-family: var(--mono); font-size: 14px; }
+
+.pnl-label { color: var(--muted); }
+.pnl-label.dark { color: var(--text); }
+.pnl-val { font-family: var(--mono); color: var(--text); }
+.pnl-val.neg { color: var(--loss-text); }
+.pnl-val.pos { color: var(--win-text); }
+.pnl-val.neutral { color: var(--be-text); }
+
+/* ── CONTENT PANEL ── */
+.content {
+  padding: 28px 32px;
+  overflow-y: auto;
+}
+
+.content-header {
+  margin-bottom: 24px;
+}
+
+.content-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.content-header p {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── MATRIX ── */
+.matrix-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 500px;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  text-align: center;
+  height: 36px;
+  font-size: 11px;
+}
+
+thead th {
+  background: var(--surface);
+  font-family: var(--mono);
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0 6px;
+  height: 32px;
+  white-space: nowrap;
+}
+
+.row-head {
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0 10px;
+  white-space: nowrap;
+  min-width: 64px;
+}
+
+.corner-cell {
+  background: var(--surface2);
+  color: var(--muted);
+  font-size: 10px;
+  font-style: italic;
+}
+
+td.win  { background: var(--win-bg);  }
+td.be   { background: var(--be-bg);   }
+td.loss { background: var(--loss-bg); }
+
+thead th.hl-col { background: #2A1F0F; color: var(--accent2); }
+tr.hl-row .row-head { background: #2A1F0F; color: var(--accent2); }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.leg-sq {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* ── PROFIT TABLE ── */
+.profit-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profit-table-header {
+  background: var(--surface);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+
+.profit-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profit-table th {
+  background: var(--surface2);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  height: auto;
+}
+
+.profit-table td {
+  padding: 8px 12px;
+  font-size: 12px;
+  text-align: left;
+  height: auto;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.profit-table tr:last-child td { border-bottom: none; }
+.profit-table td.mono { font-family: var(--mono); font-size: 11px; }
+.profit-table td.pos  { color: var(--win-text); font-family: var(--mono); }
+.profit-table td.neg  { color: var(--loss-text); font-family: var(--mono); }
+.profit-table td.neu  { color: var(--be-text); font-family: var(--mono); }
+.profit-table tr:hover td { background: var(--surface); }
+
+/* ── MODE PANELS ── */
+.mode-panel { display: none; }
+.mode-panel.active { display: block; }
+
+/* ── ICON SVG ── */
+.ico { display: block; margin: auto; }
+
+.theme-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle input { display: none; }
+
+.theme-track {
+  display: flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 2px;
+  transition: background 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.theme-toggle input:checked + .theme-track {
+  background: var(--surface2);
+}
+
+.theme-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.theme-toggle input:checked + .theme-track .theme-thumb {
+  transform: translateX(20px);
+}
+
+@media (max-width: 720px) {
+  .main { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  .topbar { padding: 0 16px; }
+  .content { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">ads_profit_calc</div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-ecom" onclick="setMode('ecom')">E-commerce</button>
+      <button class="mode-btn" id="btn-leadgen" onclick="setMode('leadgen')">Lead gen</button>
+    </div>
+    <label class="theme-toggle" title="Schakel thema">
+      <input type="checkbox" id="theme-check" onchange="toggleTheme(this.checked)">
+      <span class="theme-track">
+        <span class="theme-thumb">
+          <svg id="icon-moon" width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" fill="currentColor"/></svg>
+          <svg id="icon-sun" width="10" height="10" viewBox="0 0 16 16" fill="none" style="display:none"><circle cx="8" cy="8" r="3" fill="currentColor"/><line x1="8" y1="1" x2="8" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="13" x2="8" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="8" x2="3" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="3.05" y1="3.05" x2="4.46" y2="4.46" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="11.54" y1="11.54" x2="12.95" y2="12.95" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="11.54" y1="4.46" x2="12.95" y2="3.05" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="3.05" y1="12.95" x2="4.46" y2="11.54" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </span>
+      </span>
+    </label>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <!-- E-COMMERCE INPUTS -->
+    <div id="inputs-ecom" class="mode-panel active">
+      <div class="sidebar-section">
+        <div class="section-label">Product & marge</div>
+        <div class="ctrl">
+          <label>Gemiddelde orderwaarde <span id="ecom-aov-out">€150</span></label>
+          <input type="range" id="ecom-aov" min="10" max="2000" step="10" value="150">
+        </div>
+        <div class="ctrl">
+          <label>Bruto marge <span id="ecom-margin-out">35%</span></label>
+          <input type="range" id="ecom-margin" min="5" max="80" step="1" value="35">
+        </div>
+        <div class="ctrl">
+          <label>Retourpercentage <span id="ecom-return-out">8%</span></label>
+          <input type="range" id="ecom-return" min="0" max="40" step="1" value="8">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Campagne (per maand)</div>
+        <div class="ctrl">
+          <label>Ad spend <span id="ecom-spend-out">€2.000</span></label>
+          <input type="range" id="ecom-spend" min="100" max="50000" step="100" value="2000">
+        </div>
+        <div class="ctrl">
+          <label>ROAS <span id="ecom-roas-out">4.0×</span></label>
+          <input type="range" id="ecom-roas" min="0.5" max="20" step="0.1" value="4">
+        </div>
+        <div class="ctrl">
+          <label>Vaste kosten / maand <span id="ecom-fixed-out">€500</span></label>
+          <input type="range" id="ecom-fixed" min="0" max="10000" step="100" value="500">
+        </div>
+      </div>
+
+      <div class="section-label">Break-even & KPI's</div>
+      <div class="kpi-grid">
+        <div class="kpi full">
+          <div class="kpi-label">Break-even ROAS (na retouren)</div>
+          <div class="kpi-val accent" id="ecom-be-roas">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Omzet / maand</div>
+          <div class="kpi-val" id="ecom-rev">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Netto marge</div>
+          <div class="kpi-val" id="ecom-net-margin">—</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:16px">P&L overzicht</div>
+      <div class="pnl" id="ecom-pnl"></div>
+    </div>
+
+    <!-- LEADGEN INPUTS -->
+    <div id="inputs-leadgen" class="mode-panel">
+      <div class="sidebar-section">
+        <div class="section-label">Klant & marge</div>
+        <div class="ctrl">
+          <label>Klantwaarde (CLV) <span id="lg-clv-out">€1.000</span></label>
+          <input type="range" id="lg-clv" min="100" max="20000" step="100" value="1000">
+        </div>
+        <div class="ctrl">
+          <label>Winstmarge <span id="lg-margin-out">30%</span></label>
+          <input type="range" id="lg-margin" min="5" max="80" step="1" value="30">
+        </div>
+        <div class="ctrl">
+          <label>Lead → klant conversie <span id="lg-cr-out">10%</span></label>
+          <input type="range" id="lg-cr" min="1" max="50" step="1" value="10">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Campagne (per maand)</div>
+        <div class="ctrl">
+          <label>Ad spend <span id="lg-spend-out">€2.000</span></label>
+          <input type="range" id="lg-spend" min="100" max="50000" step="100" value="2000">
+        </div>
+        <div class="ctrl">
+          <label>Aantal leads / maand <span id="lg-leads-out">80</span></label>
+          <input type="range" id="lg-leads" min="1" max="500" step="1" value="80">
+        </div>
+        <div class="ctrl">
+          <label>Vaste kosten / maand <span id="lg-fixed-out">€500</span></label>
+          <input type="range" id="lg-fixed" min="0" max="10000" step="100" value="500">
+        </div>
+      </div>
+
+      <div class="section-label">Break-even & KPI's</div>
+      <div class="kpi-grid">
+        <div class="kpi full">
+          <div class="kpi-label">Max. CPL (break-even)</div>
+          <div class="kpi-val accent" id="lg-max-cpl">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Huidig CPL</div>
+          <div class="kpi-val" id="lg-cpl">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Klanten / maand</div>
+          <div class="kpi-val" id="lg-customers">—</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:16px">P&L overzicht</div>
+      <div class="pnl" id="lg-pnl"></div>
+    </div>
+
+  </aside>
+
+  <!-- ── CONTENT ── -->
+  <main class="content">
+
+    <!-- E-COMMERCE PANEL -->
+    <div id="panel-ecom" class="mode-panel active">
+      <div class="content-header">
+        <h2>ROAS × bruto marge — winstgevendheidsmatrix</h2>
+        <p>Elke cel toont of die combinatie van ROAS en marge winstgevend is, rekening houdend met het retourpercentage.</p>
+      </div>
+      <div class="legend">
+        <div class="leg"><div class="leg-sq" style="background:var(--win-bg);border:1px solid var(--win);"></div><span>Winstgevend</span></div>
+        <div class="leg"><div class="leg-sq" style="background:var(--be-bg);border:1px solid var(--be);"></div><span>Break-even</span></div>
+        <div class="leg"><div class="leg-sq" style="background:var(--loss-bg);border:1px solid var(--loss);"></div><span>Verlies</span></div>
+        <div class="leg"><div class="leg-sq" style="background:#2A1F0F;border:1px solid var(--accent);"></div><span>Jouw instelling</span></div>
+      </div>
+      <div class="matrix-wrap">
+        <table id="ecom-matrix"></table>
+      </div>
+      <div class="profit-table-wrap">
+        <div class="profit-table-header">Scenario analyse — winst per ROAS bij jouw huidige marge</div>
+        <table class="profit-table" id="ecom-scenario"></table>
+      </div>
+    </div>
+
+    <!-- LEADGEN PANEL -->
+    <div id="panel-leadgen" class="mode-panel">
+      <div class="content-header">
+        <h2>CPL × conversieratio — winstgevendheidsmatrix</h2>
+        <p>Elke cel toont of die combinatie van CPL en lead→klant conversie winstgevend is bij jouw klantwaarde en marge.</p>
+      </div>
+      <div class="legend">
+        <div class="leg"><div class="leg-sq" style="background:var(--win-bg);border:1px solid var(--win);"></div><span>Winstgevend</span></div>
+        <div class="leg"><div class="leg-sq" style="background:var(--be-bg);border:1px solid var(--be);"></div><span>Break-even</span></div>
+        <div class="leg"><div class="leg-sq" style="background:var(--loss-bg);border:1px solid var(--loss);"></div><span>Verlies</span></div>
+        <div class="leg"><div class="leg-sq" style="background:#2A1F0F;border:1px solid var(--accent);"></div><span>Jouw instelling</span></div>
+      </div>
+      <div class="matrix-wrap">
+        <table id="lg-matrix"></table>
+      </div>
+      <div class="profit-table-wrap">
+        <div class="profit-table-header">Scenario analyse — winst per CPL bij jouw huidige conversieratio</div>
+        <table class="profit-table" id="lg-scenario"></table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function toggleTheme(isLight) {
+  document.documentElement.classList.toggle('light', isLight);
+  const moon = document.getElementById('icon-moon');
+  const sun  = document.getElementById('icon-sun');
+  if (moon) moon.style.display = isLight ? 'none' : 'block';
+  if (sun)  sun.style.display  = isLight ? 'block' : 'none';
+  render();
+}
+
+/* ── UTILS ── */
+const fmt  = n => Math.round(n).toLocaleString('nl-NL');
+const fmtE = n => '€' + fmt(n);
+const fmtP = n => n.toFixed(1) + '%';
+const fmtR = n => n.toFixed(1) + '×';
+const $ = id => document.getElementById(id);
+
+function icon(cls) {
+  const isLight = document.documentElement.classList.contains('light');
+  const colors = isLight
+    ? { win: '#2A5A0A', be: '#6A4A00', loss: '#7A1010' }
+    : { win: '#7EC86A', be: '#D4A84A', loss: '#E07070' };
+  const c = colors[cls];
+  if (cls === 'win')  return `<svg class="ico" width="14" height="14" viewBox="0 0 16 16"><polyline points="3,9 6.5,13 13,4" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  if (cls === 'loss') return `<svg class="ico" width="14" height="14" viewBox="0 0 16 16"><line x1="4" y1="4" x2="12" y2="12" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/><line x1="12" y1="4" x2="4" y2="12" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+  return `<svg class="ico" width="14" height="14" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" fill="none" stroke="${c}" stroke-width="1.5"/><line x1="5.5" y1="11" x2="10.5" y2="5" stroke="${c}" stroke-width="1.2" stroke-linecap="round"/></svg>`;
+}
+
+function classify(profit, threshold) {
+  const tol = Math.abs(threshold) * 0.06 + 1;
+  if (profit > tol) return 'win';
+  if (profit >= -tol) return 'be';
+  return 'loss';
+}
+
+function nearest(arr, val) {
+  return arr.reduce((b, x) => Math.abs(x - val) < Math.abs(b - val) ? x : b, arr[0]);
+}
+
+/* ── MODE SWITCH ── */
+let mode = 'ecom';
+function setMode(m) {
+  mode = m;
+  ['ecom','leadgen'].forEach(x => {
+    $('btn-' + (x === 'ecom' ? 'ecom' : 'leadgen')).classList.toggle('active', x === m || (m === 'leadgen' && x === 'leadgen') || (m === 'ecom' && x === 'ecom'));
+    $('inputs-' + x).classList.toggle('active', x === m);
+    $('panel-' + x).classList.toggle('active', x === m);
+  });
+  $('btn-ecom').classList.toggle('active', m === 'ecom');
+  $('btn-leadgen').classList.toggle('active', m === 'leadgen');
+  render();
+}
+
+/* ══════════════════════════════
+   E-COMMERCE
+══════════════════════════════ */
+const ecomMarginRows = [5,8,10,12,15,20,25,30,35,40,50,60];
+const ecomRoasCols   = [1,1.5,2,2.5,3,4,5,6,7,8,10,12];
+
+function renderEcom() {
+  const aov     = +$('ecom-aov').value;
+  const margin  = +$('ecom-margin').value / 100;
+  const ret     = +$('ecom-return').value / 100;
+  const spend   = +$('ecom-spend').value;
+  const roas    = +$('ecom-roas').value;
+  const fixed   = +$('ecom-fixed').value;
+
+  $('ecom-aov-out').textContent    = fmtE(aov);
+  $('ecom-margin-out').textContent = fmtP(margin * 100);
+  $('ecom-return-out').textContent = fmtP(ret * 100);
+  $('ecom-spend-out').textContent  = fmtE(spend);
+  $('ecom-roas-out').textContent   = fmtR(roas);
+  $('ecom-fixed-out').textContent  = fmtE(fixed);
+
+  const effectiveMargin = margin * (1 - ret);
+  const beRoas = 1 / effectiveMargin;
+
+  const revenue   = spend * roas;
+  const grossProfit = revenue * effectiveMargin;
+  const netProfit = grossProfit - spend - fixed;
+  const netMarginPct = revenue > 0 ? (netProfit / revenue) * 100 : 0;
+
+  $('ecom-be-roas').textContent    = fmtR(beRoas);
+  $('ecom-rev').textContent        = fmtE(revenue);
+  $('ecom-net-margin').textContent = netMarginPct.toFixed(1) + '%';
+  $('ecom-net-margin').className   = 'kpi-val ' + (netProfit > 0 ? 'win' : netProfit < 0 ? 'loss' : 'neutral');
+
+  // P&L
+  $('ecom-pnl').innerHTML = `
+    <div class="pnl-row"><span class="pnl-label">Omzet (ROAS × spend)</span><span class="pnl-val">+${fmtE(revenue)}</span></div>
+    <div class="pnl-row"><span class="pnl-label">– COGS (na retouren)</span><span class="pnl-val neg">−${fmtE(revenue * (1 - effectiveMargin))}</span></div>
+    <div class="pnl-row"><span class="pnl-label">= Bruto winst</span><span class="pnl-val">${fmtE(grossProfit)}</span></div>
+    <div class="pnl-row"><span class="pnl-label">– Ad spend</span><span class="pnl-val neg">−${fmtE(spend)}</span></div>
+    <div class="pnl-row"><span class="pnl-label">– Vaste kosten</span><span class="pnl-val neg">−${fmtE(fixed)}</span></div>
+    <div class="pnl-row total"><span class="pnl-label dark">Netto winst</span><span class="pnl-val ${netProfit >= 0 ? 'pos' : 'neg'}">${netProfit >= 0 ? '+' : ''}${fmtE(netProfit)}</span></div>
+  `;
+
+  // MATRIX
+  const hlMargin = nearest(ecomMarginRows, margin * 100);
+  const hlRoas   = nearest(ecomRoasCols, roas);
+
+  let html = '<thead><tr><th class="corner-cell">Marge \\ ROAS</th>';
+  ecomRoasCols.forEach(r => {
+    const hl = r === hlRoas ? ' class="hl-col"' : '';
+    html += `<th${hl}>${r}×</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  ecomMarginRows.forEach(m => {
+    const effM = (m / 100) * (1 - ret);
+    const isHl = m === hlMargin;
+    html += `<tr${isHl ? ' class="hl-row"' : ''}>`;
+    html += `<td class="row-head">${m}%</td>`;
+    ecomRoasCols.forEach(r => {
+      const beR = 1 / effM;
+      const diff = r - beR;
+      const tol = beR * 0.08;
+      const cls = diff > tol ? 'win' : diff >= -tol ? 'be' : 'loss';
+      html += `<td class="${cls}">${icon(cls)}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  $('ecom-matrix').innerHTML = html;
+
+  // SCENARIO TABLE
+  const scenarioRoas = [1,1.5,2,2.5,3,4,5,6,7,8,10,12,15,20];
+  let sh = `<thead><tr>
+    <th>ROAS</th><th>Omzet</th><th>Bruto winst</th><th>– Ad spend</th><th>– Vaste k.</th><th>Netto winst</th><th>Netto marge</th>
+  </tr></thead><tbody>`;
+  scenarioRoas.forEach(r => {
+    const rev = spend * r;
+    const gp  = rev * effectiveMargin;
+    const np  = gp - spend - fixed;
+    const nm  = rev > 0 ? (np / rev * 100) : 0;
+    const cls = np > 0 ? 'pos' : np < 0 ? 'neg' : 'neu';
+    const isActive = r === nearest(scenarioRoas, roas);
+    sh += `<tr${isActive ? ' style="background:var(--surface2)"' : ''}>
+      <td class="mono">${fmtR(r)}</td>
+      <td class="mono">${fmtE(rev)}</td>
+      <td class="mono">${fmtE(gp)}</td>
+      <td class="mono neg">−${fmtE(spend)}</td>
+      <td class="mono neg">−${fmtE(fixed)}</td>
+      <td class="${cls}">${np >= 0 ? '+' : ''}${fmtE(np)}</td>
+      <td class="${cls}">${nm.toFixed(1)}%</td>
+    </tr>`;
+  });
+  sh += '</tbody>';
+  $('ecom-scenario').innerHTML = sh;
+}
+
+/* ══════════════════════════════
+   LEAD GEN
+══════════════════════════════ */
+const lgCplRows = [5,10,15,20,25,30,40,50,75,100,150,200,300,500];
+const lgCrCols  = [1,2,3,5,8,10,15,20,25,30];
+
+function renderLeadgen() {
+  const clv   = +$('lg-clv').value;
+  const margin= +$('lg-margin').value / 100;
+  const cr    = +$('lg-cr').value / 100;
+  const spend = +$('lg-spend').value;
+  const leads = +$('lg-leads').value;
+  const fixed = +$('lg-fixed').value;
+
+  $('lg-clv-out').textContent    = fmtE(clv);
+  $('lg-margin-out').textContent = fmtP(margin * 100);
+  $('lg-cr-out').textContent     = fmtP(cr * 100);
+  $('lg-spend-out').textContent  = fmtE(spend);
+  $('lg-leads-out').textContent  = Math.round(leads);
+  $('lg-fixed-out').textContent  = fmtE(fixed);
+
+  const cpl         = leads > 0 ? spend / leads : 0;
+  const maxCpl      = clv * margin * cr;
+  const customers   = leads * cr;
+  const revenue     = customers * clv;
+  const grossProfit = revenue * margin;
+  const netProfit   = grossProfit - spend - fixed;
+  const netMarginPct= revenue > 0 ? (netProfit / revenue) * 100 : 0;
+
+  $('lg-max-cpl').textContent  = fmtE(maxCpl);
+  $('lg-cpl').textContent      = fmtE(cpl);
+  $('lg-cpl').className        = 'kpi-val ' + (cpl <= maxCpl ? 'win' : 'loss');
+  $('lg-customers').textContent = fmt(customers);
+
+  // P&L
+  $('lg-pnl').innerHTML = `
+    <div class="pnl-row"><span class="pnl-label">Omzet (klanten × CLV)</span><span class="pnl-val">+${fmtE(revenue)}</span></div>
+    <div class="pnl-row"><span class="pnl-label">– Kosten (1 – marge)</span><span class="pnl-val neg">−${fmtE(revenue * (1 - margin))}</span></div>
+    <div class="pnl-row"><span class="pnl-label">= Bruto winst</span><span class="pnl-val">${fmtE(grossProfit)}</span></div>
+    <div class="pnl-row"><span class="pnl-label">– Ad spend</span><span class="pnl-val neg">−${fmtE(spend)}</span></div>
+    <div class="pnl-row"><span class="pnl-label">– Vaste kosten</span><span class="pnl-val neg">−${fmtE(fixed)}</span></div>
+    <div class="pnl-row total"><span class="pnl-label dark">Netto winst</span><span class="pnl-val ${netProfit >= 0 ? 'pos' : 'neg'}">${netProfit >= 0 ? '+' : ''}${fmtE(netProfit)}</span></div>
+  `;
+
+  // MATRIX
+  const hlCpl = nearest(lgCplRows, cpl);
+  const hlCr  = nearest(lgCrCols, cr * 100);
+
+  let html = '<thead><tr><th class="corner-cell">CPL \\ Conv.%</th>';
+  lgCrCols.forEach(c => {
+    const hl = c === hlCr ? ' class="hl-col"' : '';
+    html += `<th${hl}>${c}%</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  lgCplRows.forEach(cp => {
+    const isHl = cp === hlCpl;
+    html += `<tr${isHl ? ' class="hl-row"' : ''}>`;
+    html += `<td class="row-head">${fmtE(cp)}</td>`;
+    lgCrCols.forEach(c => {
+      const beMaxCpl = clv * margin * (c / 100);
+      const diff = beMaxCpl - cp;
+      const tol  = beMaxCpl * 0.06 + 0.5;
+      const cls  = diff > tol ? 'win' : diff >= -tol ? 'be' : 'loss';
+      html += `<td class="${cls}">${icon(cls)}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  $('lg-matrix').innerHTML = html;
+
+  // SCENARIO TABLE
+  const scenarioCpls = [5,10,15,20,25,30,40,50,75,100,150,200,300,500];
+  let sh = `<thead><tr>
+    <th>CPL</th><th>Leads (bij spend)</th><th>Klanten</th><th>Bruto winst</th><th>– Ad spend</th><th>– Vaste k.</th><th>Netto winst</th>
+  </tr></thead><tbody>`;
+  scenarioCpls.forEach(cp => {
+    const l  = cp > 0 ? spend / cp : 0;
+    const cu = l * cr;
+    const rev= cu * clv;
+    const gp = rev * margin;
+    const np = gp - spend - fixed;
+    const cls= np > 0 ? 'pos' : np < 0 ? 'neg' : 'neu';
+    const isActive = cp === hlCpl;
+    sh += `<tr${isActive ? ' style="background:var(--surface2)"' : ''}>
+      <td class="mono">${fmtE(cp)}</td>
+      <td class="mono">${fmt(l)}</td>
+      <td class="mono">${fmt(cu)}</td>
+      <td class="mono">${fmtE(gp)}</td>
+      <td class="mono neg">−${fmtE(spend)}</td>
+      <td class="mono neg">−${fmtE(fixed)}</td>
+      <td class="${cls}">${np >= 0 ? '+' : ''}${fmtE(np)}</td>
+    </tr>`;
+  });
+  sh += '</tbody>';
+  $('lg-scenario').innerHTML = sh;
+}
+
+function render() {
+  if (mode === 'ecom') renderEcom();
+  else renderLeadgen();
+}
+
+/* ── BIND EVENTS ── */
+['ecom-aov','ecom-margin','ecom-return','ecom-spend','ecom-roas','ecom-fixed'].forEach(id => {
+  $(id).addEventListener('input', renderEcom);
+});
+['lg-clv','lg-margin','lg-cr','lg-spend','lg-leads','lg-fixed'].forEach(id => {
+  $(id).addEventListener('input', renderLeadgen);
+});
+
+render();
+</script>
+</body>
+</html>
